@@ -3,114 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrimPot - Script Licensing Platform</title>
+    <title>GrimPot Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            min-height: 100vh;
+            background: #0a0a0a;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .login-card {
-            background: rgba(20, 20, 40, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid #2a2a4a;
-            backdrop-filter: blur(10px);
-        }
-        .login-card h1 {
-            color: #00aaff;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .login-card .subtitle {
-            color: #aaa;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        .form-control, .form-select {
-            background: #1a1a2e;
-            border: 1px solid #2a2a4a;
-            color: white;
-            padding: 12px;
-        }
-        .form-control:focus, .form-select:focus {
-            background: #1a1a2e;
-            color: white;
-            border-color: #00aaff;
-            box-shadow: none;
-        }
-        .btn-primary {
-            background: #00aaff;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            background: #0088cc;
-        }
-        .btn-secondary {
-            background: #2a2a4a;
-            border: none;
-        }
-        .error {
-            color: #ff4444;
-            text-align: center;
-            margin-top: 15px;
-        }
-        .loading {
-            color: #00aaff;
-            text-align: center;
-            margin-top: 15px;
-            display: none;
-        }
-        .key-hint {
-            color: #666;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 10px;
         }
         .navbar {
             background: #0f0f1a;
             border-bottom: 1px solid #1f1f3a;
             padding: 15px 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
         }
         .navbar-brand {
             color: #00aaff;
             font-size: 1.5rem;
             font-weight: bold;
-        }
-        .navbar-brand i {
-            margin-right: 10px;
-        }
-        .user-info {
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
         .sidebar {
             position: fixed;
@@ -121,15 +30,13 @@
             background: #0f0f1a;
             border-right: 1px solid #1f1f3a;
             padding-top: 20px;
-            z-index: 99;
         }
         .sidebar .nav-link {
             color: #aaa;
             padding: 12px 24px;
-            transition: all 0.3s;
-            text-decoration: none;
             display: block;
             cursor: pointer;
+            text-decoration: none;
         }
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
             background: #1a1a2e;
@@ -138,7 +45,6 @@
         }
         .sidebar .nav-link i {
             margin-right: 10px;
-            width: 24px;
         }
         .main-content {
             margin-left: 260px;
@@ -155,8 +61,8 @@
             background: #1a1a2e;
             border-bottom: 1px solid #2a2a4a;
             padding: 15px 20px;
-            font-weight: bold;
             color: white;
+            font-weight: bold;
         }
         .stat-card {
             background: #0f0f1a;
@@ -164,19 +70,11 @@
             border-radius: 12px;
             padding: 20px;
             text-align: center;
-            transition: all 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: #00aaff;
         }
         .stat-card .value {
             font-size: 2rem;
             font-weight: bold;
             color: #00aaff;
-        }
-        .stat-card .label {
-            color: #aaa;
         }
         .table-custom {
             color: white;
@@ -187,7 +85,6 @@
         }
         .table-custom td {
             border-bottom: 1px solid #1f1f3a;
-            vertical-align: middle;
         }
         .key-code {
             font-family: monospace;
@@ -196,336 +93,212 @@
             border-radius: 6px;
             font-size: 12px;
         }
-        .badge-active {
-            background: #00ff88;
-            color: #000;
-        }
-        .badge-expired {
-            background: #ff4444;
-        }
-        .badge-used {
-            background: #ffaa00;
-        }
-        .modal-content {
-            background: #0f0f1a;
-            border: 1px solid #2a2a4a;
-        }
-        .modal-header, .modal-footer {
-            border-color: #2a2a4a;
-        }
-        .modal-title {
-            color: white;
-        }
         textarea {
             background: #1a1a2e;
             border: 1px solid #2a2a4a;
             color: white;
             font-family: monospace;
-            font-size: 13px;
             padding: 10px;
-            border-radius: 8px;
             width: 100%;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: #00aaff;
+            border-radius: 8px;
         }
         pre {
             background: #1a1a2e;
             padding: 15px;
             border-radius: 8px;
             color: #00ff88;
-            font-family: monospace;
             font-size: 12px;
             overflow-x: auto;
         }
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-            }
-            .sidebar .nav-link span {
-                display: none;
-            }
-            .main-content {
-                margin-left: 70px;
-            }
+        .btn-primary {
+            background: #00aaff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #0088cc;
+        }
+        .btn-secondary {
+            background: #2a2a4a;
+            border: none;
+        }
+        .form-control, .form-select {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            color: white;
+        }
+        .form-control:focus, .form-select:focus {
+            background: #1a1a2e;
+            color: white;
+            border-color: #00aaff;
+            box-shadow: none;
         }
     </style>
 </head>
 <body>
 
-<div id="loginPage" class="login-container">
-    <div class="login-card">
-        <h1><i class="bi bi-shield-lock"></i> GrimPot</h1>
-        <div class="subtitle">Script Licensing & Key Management Platform</div>
-        <form id="loginForm">
-            <div class="mb-3">
-                <input type="password" class="form-control" id="apiKey" placeholder="Enter your 52-character API key" required maxlength="52">
-            </div>
-            <button type="submit" class="btn btn-primary">Login to Dashboard</button>
-        </form>
-        <div id="errorMsg" class="error"></div>
-        <div id="loadingMsg" class="loading">Validating API key...</div>
-        <div class="key-hint">
-            <i class="bi bi-info-circle"></i> API keys are 52 characters long
+<script>
+    // CHECK LOGIN - Redirect if not logged in
+    if (!sessionStorage.getItem('grimpot_auth')) {
+        window.location.href = 'index.html';
+    }
+    
+    const apiKey = sessionStorage.getItem('grimpot_api_key');
+    console.log('Logged in with API key:', apiKey);
+</script>
+
+<nav class="navbar">
+    <div class="container-fluid">
+        <span class="navbar-brand"><i class="bi bi-shield-lock"></i> GrimPot</span>
+        <div class="d-flex gap-2">
+            <span class="text-white" id="projectName">GrimPot Licensing</span>
+            <button class="btn btn-sm btn-danger" onclick="logout()">Logout</button>
         </div>
     </div>
+</nav>
+
+<div class="sidebar">
+    <nav class="nav flex-column">
+        <a class="nav-link active" onclick="showPage('dashboard')">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a class="nav-link" onclick="showPage('scripts')">
+            <i class="bi bi-file-code"></i> Scripts
+        </a>
+        <a class="nav-link" onclick="showPage('keys')">
+            <i class="bi bi-key"></i> Keys
+        </a>
+        <a class="nav-link" onclick="showPage('users')">
+            <i class="bi bi-people"></i> Users
+        </a>
+        <a class="nav-link" onclick="showPage('logs')">
+            <i class="bi bi-journal-text"></i> Logs
+        </a>
+    </nav>
 </div>
 
-<div id="dashboardPage" style="display: none;">
-    <nav class="navbar">
-        <div class="container-fluid">
-            <span class="navbar-brand"><i class="bi bi-shield-lock"></i> GrimPot</span>
-            <div class="user-info">
-                <span id="projectName"></span>
-                <button class="btn btn-sm btn-danger" onclick="logout()">Logout</button>
+<div class="main-content">
+    <!-- Dashboard Page -->
+    <div id="page-dashboard">
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="value" id="total-keys">0</div>
+                    <div class="label">Total Keys</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="value" id="used-keys">0</div>
+                    <div class="label">Used Keys</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="value" id="unused-keys">0</div>
+                    <div class="label">Unused Keys</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stat-card">
+                    <div class="value" id="total-users">0</div>
+                    <div class="label">Whitelisted Users</div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <div class="sidebar">
-        <nav class="nav flex-column">
-            <a class="nav-link active" onclick="showPage('dashboard')">
-                <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
-            </a>
-            <a class="nav-link" onclick="showPage('scripts')">
-                <i class="bi bi-file-code"></i> <span>Scripts</span>
-            </a>
-            <a class="nav-link" onclick="showPage('keys')">
-                <i class="bi bi-key"></i> <span>Keys</span>
-            </a>
-            <a class="nav-link" onclick="showPage('users')">
-                <i class="bi bi-people"></i> <span>Users</span>
-            </a>
-            <a class="nav-link" onclick="showPage('logs')">
-                <i class="bi bi-journal-text"></i> <span>Logs</span>
-            </a>
-            <a class="nav-link" onclick="showPage('settings')">
-                <i class="bi bi-gear"></i> <span>Settings</span>
-            </a>
-        </nav>
+        <div class="card-custom">
+            <div class="card-header">🔑 Generate New Key</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="number" id="key-days" class="form-control" placeholder="Days (empty = lifetime)">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="key-note" class="form-control" placeholder="Note">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="generateKey()">Generate Key</button>
+                    </div>
+                </div>
+                <div id="generate-result" class="mt-3"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="main-content">
-        <!-- Dashboard Page -->
-        <div id="page-dashboard">
-            <div class="row mb-4">
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card">
-                        <div class="value" id="stat-total-keys">0</div>
-                        <div class="label">Total Keys</div>
-                    </div>
+    <!-- Scripts Page -->
+    <div id="page-scripts" style="display: none;">
+        <div class="card-custom">
+            <div class="card-header">📝 Lua Script Editor</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label text-white">Script Name</label>
+                    <input type="text" id="script-name" class="form-control" placeholder="e.g., Apex Hub v2">
                 </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card">
-                        <div class="value" id="stat-used-keys">0</div>
-                        <div class="label">Used Keys</div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card">
-                        <div class="value" id="stat-unused-keys">0</div>
-                        <div class="label">Unused Keys</div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="stat-card">
-                        <div class="value" id="stat-total-users">0</div>
-                        <div class="label">Whitelisted Users</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-graph-up"></i> Recent Activity
-                </div>
-                <div class="card-body">
-                    <canvas id="activityChart" height="80"></canvas>
-                </div>
-            </div>
-
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-plus-circle"></i> Generate New Key
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <input type="number" id="key-days" class="form-control" placeholder="Days (empty = lifetime)">
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" id="key-note" class="form-control" placeholder="Note (optional)">
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-primary w-100" onclick="generateKey()">
-                                <i class="bi bi-plus"></i> Generate Key
-                            </button>
-                        </div>
-                    </div>
-                    <div id="generate-result" class="mt-3"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Scripts Page (Lua Editor) -->
-        <div id="page-scripts" style="display: none;">
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-file-code"></i> Script Source
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label text-white">Script Display Name</label>
-                        <input type="text" id="script-name" class="form-control" placeholder="e.g., Apex Hub v2 — shown in Discord panel">
-                        <small class="text-muted">This is what users see in Discord (panel title, DM messages).</small>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-white">Lua Source</label>
-                        <textarea id="lua-source" rows="15" class="form-control" style="font-family: monospace;">-- GrimPot Protected Script
--- Your Lua code here
+                <div class="mb-3">
+                    <label class="form-label text-white">Lua Source Code</label>
+                    <textarea id="lua-source" rows="12" style="font-family: monospace;">-- GrimPot Protected Script
 print("Hello from GrimPot!")
 
--- Example:
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-print("Welcome " .. player.Name .. "!")
-
--- Your script will be obfuscated and served exclusively to valid key holders
--- The source cannot be viewed in a browser</textarea>
-                    </div>
-                    <button class="btn btn-primary" onclick="saveScript()">
-                        <i class="bi bi-save"></i> Save Script
-                    </button>
-                    <button class="btn btn-secondary ms-2" onclick="testScript()">
-                        <i class="bi bi-play"></i> Test Script
-                    </button>
-                    <div id="script-save-result" class="mt-3"></div>
+print("Welcome " .. player.Name)</textarea>
                 </div>
+                <button class="btn btn-primary" onclick="saveScript()">Save Script</button>
+                <div id="script-result" class="mt-3"></div>
             </div>
-            
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-link"></i> Loader URL
-                </div>
-                <div class="card-body">
-                    <pre id="loader-url" style="background: #1a1a2e; color: #00ff88;">Loading...</pre>
-                    <button class="btn btn-sm btn-secondary mt-2" onclick="copyLoaderUrl()">
-                        <i class="bi bi-copy"></i> Copy Loader URL
-                    </button>
+        </div>
+        
+        <div class="card-custom">
+            <div class="card-header">🔗 Loader URL</div>
+            <div class="card-body">
+                <pre id="loader-url">Loading...</pre>
+                <button class="btn btn-sm btn-secondary" onclick="copyLoader()">Copy Loader</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keys Page -->
+    <div id="page-keys" style="display: none;">
+        <div class="card-custom">
+            <div class="card-header">🔑 Key Management</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr><th>Key</th><th>Status</th><th>Expires</th><th>Redeemed By</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="keys-list"><tr><td colspan="5" class="text-center">Loading...</td></tr></tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Keys Page -->
-        <div id="page-keys" style="display: none;">
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-key"></i> All Keys
-                    <button class="btn btn-sm btn-primary float-end" onclick="exportKeys()">
-                        <i class="bi bi-download"></i> Export
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>Key</th>
-                                    <th>Status</th>
-                                    <th>Created</th>
-                                    <th>Expires</th>
-                                    <th>Redeemed By</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="keys-list">
-                                <tr><td colspan="6" class="text-center">Loading...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <!-- Users Page -->
+    <div id="page-users" style="display: none;">
+        <div class="card-custom">
+            <div class="card-header">👥 Whitelisted Users</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead><tr><th>User ID</th><th>Key</th><th>Status</th><th>Expires</th><th>Action</th></tr></thead>
+                        <tbody id="users-list"><tr><td colspan="5" class="text-center">Loading...</td></tr></tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Users Page -->
-        <div id="page-users" style="display: none;">
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-people"></i> Whitelisted Users
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>User ID</th>
-                                    <th>Key</th>
-                                    <th>Status</th>
-                                    <th>Whitelisted At</th>
-                                    <th>Expires</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="users-list">
-                                <tr><td colspan="6" class="text-center">No users</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Logs Page -->
-        <div id="page-logs" style="display: none;">
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-journal-text"></i> Execution Logs
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-custom">
-                            <thead>
-                                <tr>
-                                    <th>Key</th>
-                                    <th>HWID</th>
-                                    <th>Status</th>
-                                    <th>IP</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody id="logs-list">
-                                <tr><td colspan="5" class="text-center">Loading...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Settings Page -->
-        <div id="page-settings" style="display: none;">
-            <div class="card-custom">
-                <div class="card-header">
-                    <i class="bi bi-gear"></i> API Settings
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label text-white">API Base URL</label>
-                        <input type="text" id="api-url" class="form-control" placeholder="https://api.grimpot.com">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-white">Admin API Key</label>
-                        <input type="password" id="admin-key" class="form-control" placeholder="Your 52-char API key">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-white">HWID Lock</label>
-                        <select id="hwid-lock" class="form-select">
-                            <option value="1">Enabled</option>
-                            <option value="0">Disabled</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+    <!-- Logs Page -->
+    <div id="page-logs" style="display: none;">
+        <div class="card-custom">
+            <div class="card-header">📋 Execution Logs</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead><tr><th>Key</th><th>HWID</th><th>Status</th><th>Time</th></tr></thead>
+                        <tbody id="logs-list"><tr><td colspan="4" class="text-center">Loading...</td></tr></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -533,395 +306,177 @@ print("Welcome " .. player.Name .. "!")
 </div>
 
 <script>
-    // 100 Valid API Keys - Only these will work
-    const VALID_API_KEYS = [
-        "aB3kL9mN2pQ4rS5tU6vW7xY8zA1bC2dE3fG4hJ5kL6nP7qR8sT9uV0wX",
-        "XyZ123AbC456DeF789GhI0JkL1MnOp2QrSt3UvWx4YzA5BcD6EfG7HiJ8KlM9",
-        "7kL2mNpQ4rS5tU6vW7xY8zA1bC2dE3fG4hJ5kL6nP7qR8sT9uV0wXyZ1Ab",
-        "2cD3eF4gH5iJ6kL7mN8oP9qR0sT1uV2wX3yZ4aB5cD6eF7gH8iJ9kL0mN",
-        "pQ4rS5tU6vW7xY8zA1bC2dE3fG4hJ5kL6nP7qR8sT9uV0wXyZ1AbC2dE3f",
-        "G4hJ5kL6nP7qR8sT9uV0wXyZ1AbC2dE3fG4hJ5kL6nP7qR8sT9uV0wXy",
-        "8zA1bC2dE3fG4hJ5kL6nP7qR8sT9uV0wXyZ1AbC2dE3fG4hJ5kL6nP7qR",
-        "sT9uV0wXyZ1AbC2dE3fG4hJ5kL6nP7qR8sT9uV0wXyZ1AbC2dE3fG4hJ5",
-        "kL6nP7qR8sT9uV0wXyZ1AbC2dE3fG4hJ5kL6nP7qR8sT9uV0wXyZ1AbC2",
-        "dE3fG4hJ5kL6nP7qR8sT9uV0wXyZ1AbC2dE3fG4hJ5kL6nP7qR8sT9uV0"
-    ];
-
-    let currentApiKey = null;
-    let currentProject = null;
-    let activityChart = null;
     let keysData = [];
     let usersData = [];
     let logsData = [];
-
-    // Check if already logged in
-    if (localStorage.getItem('grimpot_auth') && localStorage.getItem('grimpot_api_key')) {
-        const savedKey = localStorage.getItem('grimpot_api_key');
-        if (VALID_API_KEYS.includes(savedKey)) {
-            currentApiKey = savedKey;
-            currentProject = localStorage.getItem('grimpot_project') || "GrimPot";
-            showDashboard();
-        } else {
-            localStorage.removeItem('grimpot_auth');
-            localStorage.removeItem('grimpot_api_key');
-        }
-    }
-
-    // Login handler
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const apiKey = document.getElementById('apiKey').value.trim();
-        
-        if (apiKey.length !== 52) {
-            document.getElementById('errorMsg').innerText = 'API key must be exactly 52 characters';
-            return;
-        }
-        
-        document.getElementById('loadingMsg').style.display = 'block';
-        document.getElementById('errorMsg').innerText = '';
-        
-        setTimeout(() => {
-            if (VALID_API_KEYS.includes(apiKey)) {
-                currentApiKey = apiKey;
-                currentProject = "GrimPot Licensing";
-                localStorage.setItem('grimpot_auth', 'true');
-                localStorage.setItem('grimpot_api_key', apiKey);
-                localStorage.setItem('grimpot_project', currentProject);
-                showDashboard();
-            } else {
-                document.getElementById('errorMsg').innerText = 'Invalid API key. Please check and try again.';
-            }
-            document.getElementById('loadingMsg').style.display = 'none';
-        }, 500);
-    });
-
-    function showDashboard() {
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('dashboardPage').style.display = 'block';
-        document.getElementById('projectName').innerHTML = `<i class="bi bi-building"></i> ${currentProject}`;
-        loadDashboard();
-        loadKeys();
-        loadUsers();
-        loadLogs();
-        loadScript();
-    }
-
+    
     function logout() {
-        localStorage.removeItem('grimpot_auth');
-        localStorage.removeItem('grimpot_api_key');
-        localStorage.removeItem('grimpot_project');
-        location.reload();
+        sessionStorage.clear();
+        window.location.href = 'index.html';
     }
-
+    
     function showPage(page) {
         document.getElementById('page-dashboard').style.display = page === 'dashboard' ? 'block' : 'none';
         document.getElementById('page-scripts').style.display = page === 'scripts' ? 'block' : 'none';
         document.getElementById('page-keys').style.display = page === 'keys' ? 'block' : 'none';
         document.getElementById('page-users').style.display = page === 'users' ? 'block' : 'none';
         document.getElementById('page-logs').style.display = page === 'logs' ? 'block' : 'none';
-        document.getElementById('page-settings').style.display = page === 'settings' ? 'block' : 'none';
         
-        document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+        document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
         event.target.closest('.nav-link').classList.add('active');
-        
-        if (page === 'dashboard') loadDashboard();
-        if (page === 'keys') loadKeys();
-        if (page === 'users') loadUsers();
-        if (page === 'logs') loadLogs();
     }
-
-    function loadDashboard() {
-        const totalKeys = keysData.length;
-        const usedKeys = keysData.filter(k => k.redeemed_by).length;
-        const totalUsers = usersData.length;
-        
-        document.getElementById('stat-total-keys').innerText = totalKeys;
-        document.getElementById('stat-used-keys').innerText = usedKeys;
-        document.getElementById('stat-unused-keys').innerText = totalKeys - usedKeys;
-        document.getElementById('stat-total-users').innerText = totalUsers;
-        
-        if (activityChart) activityChart.destroy();
-        
-        const ctx = document.getElementById('activityChart').getContext('2d');
-        activityChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Executions',
-                    data: [12, 19, 15, 17, 14, 23, 21],
-                    borderColor: '#00aaff',
-                    backgroundColor: 'rgba(0, 170, 255, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: { legend: { labels: { color: '#aaa' } } },
-                scales: {
-                    y: { grid: { color: '#1f1f3a' }, ticks: { color: '#aaa' } },
-                    x: { grid: { color: '#1f1f3a' }, ticks: { color: '#aaa' } }
-                }
-            }
-        });
+    
+    function loadStats() {
+        document.getElementById('total-keys').innerText = keysData.length;
+        document.getElementById('used-keys').innerText = keysData.filter(k => k.redeemed_by).length;
+        document.getElementById('unused-keys').innerText = keysData.length - keysData.filter(k => k.redeemed_by).length;
+        document.getElementById('total-users').innerText = usersData.length;
     }
-
+    
     function loadKeys() {
-        // Demo data - in production, fetch from API
-        if (keysData.length === 0) {
-            keysData = [
-                { key_code: "GRIM-7XkL2mNpQ4rS5tU6vW7xY8zA1bC2dE3f", redeemed_by: null, created_at: Date.now()/1000, expires_at: null },
-                { key_code: "GRIM-9YjM3oNqR5sT6uV7wX8yZ9aB2cD3eF4g", redeemed_by: "User#1234", created_at: Date.now()/1000 - 86400, expires_at: Date.now()/1000 + 86400 * 30 },
-            ];
-        }
-        
         const tbody = document.getElementById('keys-list');
         if (keysData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center">No keys found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No keys</td></tr>';
             return;
         }
-        
         tbody.innerHTML = keysData.map(key => `
             <tr>
                 <td><code class="key-code">${key.key_code}</code></td>
                 <td>${key.redeemed_by ? '<span class="badge bg-warning">Used</span>' : '<span class="badge bg-success">Active</span>'}</td>
-                <td>${new Date(key.created_at * 1000).toLocaleDateString()}</td>
                 <td>${key.expires_at ? new Date(key.expires_at * 1000).toLocaleDateString() : 'Lifetime'}</td>
                 <td>${key.redeemed_by || '-'}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="deleteKey('${key.key_code}')"><i class="bi bi-trash"></i></button></td>
+                <td><button class="btn btn-danger btn-sm" onclick="deleteKey('${key.key_code}')">Delete</button></td>
             </tr>
         `).join('');
+        loadStats();
     }
-
+    
     function loadUsers() {
-        if (usersData.length === 0) {
-            usersData = [
-                { user_id: "1088143400496279552", key_code: "GRIM-9YjM3oNqR5sT6uV7wX8yZ9aB2cD3eF4g", whitelisted_at: Date.now()/1000 - 86400, expires_at: Date.now()/1000 + 86400 * 30, is_lifetime: false },
-            ];
-        }
-        
         const tbody = document.getElementById('users-list');
         if (usersData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center">No users whitelisted</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No users</td></tr>';
             return;
         }
-        
         tbody.innerHTML = usersData.map(user => `
             <tr>
                 <td><code>${user.user_id}</code></td>
                 <td><code class="key-code">${user.key_code}</code></td>
-                <td>${user.is_lifetime ? '<span class="badge bg-success">Lifetime</span>' : (user.expires_at > Date.now()/1000 ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Expired</span>')}</td>
-                <td>${new Date(user.whitelisted_at * 1000).toLocaleDateString()}</td>
+                <td>${user.is_lifetime ? 'Lifetime' : (user.expires_at > Date.now()/1000 ? 'Active' : 'Expired')}</td>
                 <td>${user.is_lifetime ? 'Never' : new Date(user.expires_at * 1000).toLocaleDateString()}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="blacklistUser('${user.user_id}')"><i class="bi bi-person-x"></i></button></td>
+                <td><button class="btn btn-danger btn-sm" onclick="blacklistUser('${user.user_id}')">Blacklist</button></td>
             </tr>
         `).join('');
+        loadStats();
     }
-
+    
     function loadLogs() {
-        if (logsData.length === 0) {
-            logsData = [
-                { key_code: "GRIM-7XkL2mNpQ4rS5tU6vW7xY8zA1bC2dE3f", hwid: "HWID-12345", success: true, ip: "192.168.1.1", executed_at: Date.now()/1000 - 300 },
-                { key_code: "GRIM-9YjM3oNqR5sT6uV7wX8yZ9aB2cD3eF4g", hwid: "HWID-67890", success: true, ip: "192.168.1.2", executed_at: Date.now()/1000 - 600 },
-            ];
-        }
-        
         const tbody = document.getElementById('logs-list');
         if (logsData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center">No logs found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">No logs</td></tr>';
             return;
         }
-        
         tbody.innerHTML = logsData.map(log => `
             <tr>
                 <td><code class="key-code">${log.key_code}</code></td>
                 <td><code>${log.hwid || '-'}</code></td>
                 <td>${log.success ? '<span class="badge bg-success">Success</span>' : '<span class="badge bg-danger">Failed</span>'}</td>
-                <td>${log.ip || '-'}</td>
                 <td>${new Date(log.executed_at * 1000).toLocaleString()}</td>
             </tr>
         `).join('');
     }
-
+    
     function generateKey() {
         const days = document.getElementById('key-days').value;
-        const note = document.getElementById('key-note').value;
-        
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let newKey = 'GRIM-';
-        for (let i = 0; i < 32; i++) {
-            newKey += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        
-        const expires_at = days ? Date.now()/1000 + (parseInt(days) * 86400) : null;
+        for (let i = 0; i < 32; i++) newKey += chars.charAt(Math.floor(Math.random() * chars.length));
         
         keysData.unshift({
             key_code: newKey,
             redeemed_by: null,
             created_at: Date.now()/1000,
-            expires_at: expires_at,
-            note: note
+            expires_at: days ? Date.now()/1000 + (parseInt(days) * 86400) : null
         });
         
-        document.getElementById('generate-result').innerHTML = `
-            <div class="alert alert-success">
-                <strong>✅ Key Generated!</strong><br>
-                <code class="key-code">${newKey}</code>
-                ${days ? `<br>📅 Expires in ${days} days` : '<br>📅 Lifetime key'}
-            </div>
-        `;
-        
+        document.getElementById('generate-result').innerHTML = `<div class="alert alert-success">✅ Key: <code>${newKey}</code></div>`;
         loadKeys();
-        loadDashboard();
-        
-        setTimeout(() => {
-            document.getElementById('generate-result').innerHTML = '';
-        }, 5000);
+        setTimeout(() => document.getElementById('generate-result').innerHTML = '', 5000);
     }
-
+    
     function deleteKey(keyCode) {
-        if (!confirm('Are you sure you want to delete this key?')) return;
+        if (!confirm('Delete this key?')) return;
         keysData = keysData.filter(k => k.key_code !== keyCode);
         loadKeys();
-        loadDashboard();
     }
-
+    
     function blacklistUser(userId) {
-        if (!confirm('Are you sure you want to blacklist this user?')) return;
+        if (!confirm('Blacklist this user?')) return;
         usersData = usersData.filter(u => u.user_id !== userId);
-        keysData = keysData.map(k => {
-            if (k.redeemed_by === userId) k.redeemed_by = null;
-            return k;
-        });
+        keysData = keysData.map(k => { if (k.redeemed_by === userId) k.redeemed_by = null; return k; });
         loadUsers();
-        loadDashboard();
+        loadKeys();
     }
-
-    function exportKeys() {
-        const data = keysData.map(k => ({
-            key: k.key_code,
-            status: k.redeemed_by ? 'Used' : 'Active',
-            created: new Date(k.created_at * 1000).toISOString(),
-            expires: k.expires_at ? new Date(k.expires_at * 1000).toISOString() : 'Lifetime',
-            redeemed_by: k.redeemed_by || 'None'
-        }));
-        
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `grimpot_keys_${new Date().toISOString().split('T')[0]}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-
-    function loadScript() {
-        const savedScript = localStorage.getItem('grimpot_script');
-        if (savedScript) {
-            document.getElementById('lua-source').value = savedScript;
-        }
-        updateLoaderUrl();
-    }
-
+    
     function saveScript() {
-        const scriptName = document.getElementById('script-name').value || 'GrimPot Script';
-        const luaSource = document.getElementById('lua-source').value;
-        
-        localStorage.setItem('grimpot_script', luaSource);
-        localStorage.setItem('grimpot_script_name', scriptName);
-        
-        updateLoaderUrl();
-        
-        document.getElementById('script-save-result').innerHTML = `
-            <div class="alert alert-success mt-3">✅ Script saved successfully!</div>
-        `;
-        
-        setTimeout(() => {
-            document.getElementById('script-save-result').innerHTML = '';
-        }, 3000);
+        localStorage.setItem('grimpot_script', document.getElementById('lua-source').value);
+        localStorage.setItem('grimpot_script_name', document.getElementById('script-name').value);
+        updateLoader();
+        document.getElementById('script-result').innerHTML = '<div class="alert alert-success">✅ Script saved!</div>';
+        setTimeout(() => document.getElementById('script-result').innerHTML = '', 3000);
     }
-
-    function updateLoaderUrl() {
-        const apiUrl = localStorage.getItem('api_url') || 'https://api.grimpot.com';
-        const loaderCode = `-- GrimPot Loader
--- Script: ${localStorage.getItem('grimpot_script_name') || 'GrimPot Script'}
--- This loader will only work with a valid key
-
-local key = "YOUR_KEY_HERE"  -- Replace with your redemption key
+    
+    function updateLoader() {
+        const scriptName = localStorage.getItem('grimpot_script_name') || 'GrimPot Script';
+        const loader = `-- GrimPot Loader: ${scriptName}
+local key = "YOUR_KEY_HERE"
 local hwid = game:GetService("RbxAnalyticsService"):GetDeviceId()
 
 local function httpPost(url, data)
     local syn = syn and syn.request or request or http_request
     if syn then
-        local response = syn({
-            Url = url,
-            Method = "POST",
-            Headers = {["Content-Type"] = "application/json"},
-            Body = game:GetService("HttpService"):JSONEncode(data)
-        })
-        return response.Body
+        local res = syn({Url = url, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = game:GetService("HttpService"):JSONEncode(data)})
+        return res.Body
     end
     return game:GetService("HttpService"):PostAsync(url, game:GetService("HttpService"):JSONEncode(data))
 end
 
-local response = httpPost("${apiUrl}/api/validate", {key = key, hwid = hwid})
-local result = game:GetService("HttpService"):JSONDecode(response)
+local result = game:GetService("HttpService"):JSONDecode(httpPost("https://api.grimpot.com/api/validate", {key = key, hwid = hwid}))
 
 if result.code == "KEY_VALID" then
-    print("✅ GrimPot: Key valid! Loading script...")
+    print("✅ GrimPot: Key valid!")
     loadstring(result.script)()
 elseif result.code == "KEY_EXPIRED" then
-    warn("❌ GrimPot: Your key has expired!")
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "GrimPot",
-        Text = "Key expired. Please renew.",
-        Duration = 5
-    })
+    warn("❌ Key expired!")
 elseif result.code == "KEY_HWID_LOCKED" then
-    warn("❌ GrimPot: HWID mismatch! Use /reset_hwid in Discord")
+    warn("❌ HWID mismatch! Use /reset_hwid")
 else
-    warn("❌ GrimPot: " .. result.message)
+    warn("❌ " .. result.message)
 end`;
-
-        document.getElementById('loader-url').innerHTML = loaderCode;
+        document.getElementById('loader-url').innerHTML = loader;
     }
-
-    function testScript() {
-        const luaSource = document.getElementById('lua-source').value;
-        console.log('Testing script execution simulation...');
-        alert('Script test simulated. Check console for output.');
-        eval(luaSource);
+    
+    function copyLoader() {
+        navigator.clipboard.writeText(document.getElementById('loader-url').innerText);
+        alert('Loader copied!');
     }
-
-    function copyLoaderUrl() {
-        const loaderCode = document.getElementById('loader-url').innerText;
-        navigator.clipboard.writeText(loaderCode);
-        alert('Loader code copied to clipboard!');
-    }
-
-    function saveSettings() {
-        const apiUrl = document.getElementById('api-url').value;
-        const adminKey = document.getElementById('admin-key').value;
-        const hwidLock = document.getElementById('hwid-lock').value;
-        
-        localStorage.setItem('api_url', apiUrl);
-        localStorage.setItem('admin_key', adminKey);
-        localStorage.setItem('hwid_lock', hwidLock);
-        
-        updateLoaderUrl();
-        
-        alert('Settings saved!');
-    }
-
-    // Load saved settings
-    document.getElementById('api-url').value = localStorage.getItem('api_url') || 'https://api.grimpot.com';
-    document.getElementById('admin-key').value = localStorage.getItem('admin_key') || '';
-    document.getElementById('hwid-lock').value = localStorage.getItem('hwid_lock') || '1';
-
-    // Initial load
-    loadDashboard();
+    
+    // Initialize demo data
+    keysData = [
+        { key_code: "GRIM-7XkL2mNpQ4rS5tU6vW7xY8zA1bC2dE3f", redeemed_by: null, expires_at: null },
+        { key_code: "GRIM-9YjM3oNqR5sT6uV7wX8yZ9aB2cD3eF4g", redeemed_by: "User#1234", expires_at: Date.now()/1000 + 86400*30 },
+    ];
+    usersData = [
+        { user_id: "1088143400496279552", key_code: "GRIM-9YjM3oNqR5sT6uV7wX8yZ9aB2cD3eF4g", whitelisted_at: Date.now()/1000, expires_at: Date.now()/1000 + 86400*30, is_lifetime: false },
+    ];
+    logsData = [
+        { key_code: "GRIM-7XkL2mNpQ4rS5tU6vW7xY8zA1bC2dE3f", hwid: "HWID-12345", success: true, executed_at: Date.now()/1000 - 300 },
+    ];
+    
+    loadKeys();
+    loadUsers();
+    loadLogs();
+    updateLoader();
+    loadStats();
 </script>
 </body>
 </html>
