@@ -45,6 +45,12 @@
             text-align: center;
             margin-top: 15px;
         }
+        .loading {
+            color: #00aaff;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -52,21 +58,50 @@
         <h1>🔐 GrimPot</h1>
         <form id="loginForm">
             <div class="mb-3">
-                <input type="password" class="form-control" id="apiKey" placeholder="Enter API Key" required>
+                <input type="password" class="form-control" id="apiKey" placeholder="Enter 52-character API Key" required maxlength="52">
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
         <div id="errorMsg" class="error"></div>
+        <div id="loadingMsg" class="loading">Validating...</div>
     </div>
+
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        const API_URL = "https://your-railway-app.up.railway.app"; // CHANGE THIS TO YOUR RAILWAY URL
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const apiKey = document.getElementById('apiKey').value;
-            if (apiKey) {
-                localStorage.setItem('grimpot_auth', 'true');
-                window.location.href = 'dashboard.html';
-            } else {
-                document.getElementById('errorMsg').innerText = 'Please enter an API key';
+            
+            if (apiKey.length !== 52) {
+                document.getElementById('errorMsg').innerText = 'API key must be 52 characters';
+                return;
+            }
+            
+            document.getElementById('loadingMsg').style.display = 'block';
+            document.getElementById('errorMsg').innerText = '';
+            
+            try {
+                const response = await fetch(`${API_URL}/api/verify_key`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: apiKey })
+                });
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    localStorage.setItem('grimpot_auth', 'true');
+                    localStorage.setItem('grimpot_api_key', apiKey);
+                    localStorage.setItem('grimpot_project', data.project_name);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    document.getElementById('errorMsg').innerText = data.message || 'Invalid API key';
+                }
+            } catch (error) {
+                document.getElementById('errorMsg').innerText = 'Connection error. Please try again.';
+            } finally {
+                document.getElementById('loadingMsg').style.display = 'none';
             }
         });
     </script>
